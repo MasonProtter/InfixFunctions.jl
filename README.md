@@ -9,7 +9,7 @@ Julia infix function *hack*, based on this Python hack:
 # Installation
 
 ```julia
-julia> Pkg.clone("https://github.com/Ismael-VC/InfixFunctions.jl")
+pkg> add https://github.com/MasonProtter/InfixFunctions.jl
 ```
 
 # Usage
@@ -17,29 +17,25 @@ julia> Pkg.clone("https://github.com/Ismael-VC/InfixFunctions.jl")
 ```julia
 julia> using InfixFunctions
 
-julia> @infix foo(x, y) = x + y
-foo (generic infix function with 1 method)
+julia> foo(x, y) = (x - y)/((x + y)/2)
+foo (generic function with 1 method)
 
-julia> @infix function foo(x::T, y::T) where {T<:Int}
-           return Complex(x + y)
-       end
-foo (generic infix function with 2 methods)
+julia> foo(x::Int, y::Int) = 2(x - y)//(x + y)
+foo (generic function with 2 methods)
 
-julia> @infix (foo(x::T, y::S)::S) where {T<:Int, S<:Float64} = x - y
-foo (generic infix function with 3 methods)
+julia> @infix foo
+[ Info: foo has been infixified
+foo (generic function with 2 methods)
 
-julia> 3.0 |foo| π
-6.141592653589793
+julia> 1 |foo| 2
+-2//3
 
-julia> 3 |foo| 5
-8 + 0im
-
-julia> 3 |foo| 5.
--2.0
+julia> 1.0 |foo| 2
+-0.6666666666666666
 
 julia> @infix div
-INFO: div has been infixified
-div (generic function with 31 methods)
+[ Info: div has been infixified
+div (generic function with 54 methods)
 
 julia> 10 |div| 5
 2

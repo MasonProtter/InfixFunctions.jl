@@ -1,5 +1,7 @@
 module InfixFunctions
 
+export @infix
+
 struct InfixFunction <: Function
     name::Symbol
     operator::Function

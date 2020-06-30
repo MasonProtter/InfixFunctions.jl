@@ -1,12 +1,15 @@
 using InfixFunctions
-using Base.Test
+using Test
 
 
 # Test short and long function definitions:
-@infix add(x, y) = x + y
-@infix function sub(x, y)
+add(x, y) = x + y
+function sub(x, y)
     return x - y
 end
+
+@infix add
+@infix sub
 
 x = 5
 
@@ -14,11 +17,13 @@ x = 5
 @test x |sub| x == 0
 
 # Test multiple dispatch and type parameters:
-@infix function foo(x::T, y::T) where {T<:Int}
+function foo(x::T, y::T) where {T<:Int}
     return Complex(x + y)
 end
 
-@infix foo(x::T, y::S) where {T<:Int, S<:Float64} = x - y
+foo(x::T, y::S) where {T<:Int, S<:Float64} = x - y
+
+@infix foo
 
 @test 3 |foo| 5 == 8 + 0im
 @test 3 |foo| 5.0 == -2.0
@@ -31,11 +36,13 @@ end
 @test 10 |div| 5 == 2
 
 # Test return types:
-@infix function bar(x::T, y::T)::T where {T<:Int}
+function bar(x::T, y::T)::T where {T<:Int}
     return x + y
 end
 
-@infix (bar(x::T, y::S)::S) where {T<:Int, S<:Float64} = x - y
+(bar(x::T, y::S)::S) where {T<:Int, S<:Float64} = x - y
+
+@infix bar
 
 @test (5 |bar| 5)::Int == 10
 @test (5 |bar| 5.0)::Float64 == 0.0
